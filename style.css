@@ -1,0 +1,11 @@
+#dialog-container {
+    display: none;  /* Initially hide the dialog */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    z-index: 100;  /* Ensure dialog appears above other elements */
+}

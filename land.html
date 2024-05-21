@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Track Time Spent</title>
+</head>
+
+<body>
+    <h1>Welcome to Page Tracking</h1>
+    <script>
+        // Function to get the current URL
+        function getCurrentUrl() {
+            return window.location.href;
+        }
+
+        // Function to store the time data in localStorage
+        function storeTimeData(url, timeSpent) {
+            let timeData = JSON.parse(localStorage.getItem('timeData')) || {};
+
+            if (!timeData[url]) {
+                timeData[url] = 0;
+            }
+
+            timeData[url] += timeSpent;
+            localStorage.setItem('timeData', JSON.stringify(timeData));
+        }
+
+        // Function to calculate time spent and store it
+        function calculateAndStoreTimeSpent() {
+            const exitTime = new Date().getTime();
+            const entryTime = sessionStorage.getItem('entryTime');
+            if (entryTime) {
+                const timeSpent = exitTime - entryTime;
+                const url = getCurrentUrl();
+                storeTimeData(url, timeSpent);
+            }
+        }
+
+        // Set the entry time when the page is loaded
+        window.onload = function () {
+            sessionStorage.setItem('entryTime', new Date().getTime());
+        };
+
+        // Calculate and store the time spent when the page is unloaded
+        window.onbeforeunload = function () {
+            calculateAndStoreTimeSpent();
+        };
+
+        // Function to retrieve and display time data (optional, for debugging)
+        function displayTimeData() {
+            const timeData = JSON.parse(localStorage.getItem('timeData'));
+            console.log(timeData);
+        }
+
+        // Example usage: Display time data after 5 seconds
+        setTimeout(displayTimeData, 5000);
+    </script>
+</body>
+
+</html>
